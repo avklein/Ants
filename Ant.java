@@ -26,7 +26,7 @@ public class Ant implements Comparable<Ant> {
 	static public final double epsX = 0.001;
 	static public final double epsV = 0.001;
 	
-	/*
+	/**
 	 * Helper function for the Ant constructors
 	 *
 	 * @param x is the position
@@ -83,10 +83,10 @@ public class Ant implements Comparable<Ant> {
 	}
 	
 	/**
-	 * Update the position of the ant, ignoring
+	 * Updates the position of this ant, ignoring
 	 * the possibility of a collision.
 	 * 
-	 * @param t is time (in seconds) since last move
+	 * @param t is the time (in seconds) to allow the ant to move
 	 */
 	public void simpleMove(double t) {
 		x = x + t*v;
