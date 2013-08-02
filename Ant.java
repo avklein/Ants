@@ -26,6 +26,12 @@ public class Ant implements Comparable<Ant> {
 	static public final double epsX = 0.001;
 	static public final double epsV = 0.001;
 	
+	/*
+	 * Helper function for the Ant constructors
+	 *
+	 * @param x is the position
+	 * @param v is the velocity
+	 */
 	private void initialize(double x, double v) {
 		this.name = null;
 		this.x = x;
@@ -68,8 +74,13 @@ public class Ant implements Comparable<Ant> {
 			return String.format("%s      %4.1f    %4.1f %s", name, x, v, aliveLabel);
 		}
 	}
-		
-	public int compareTo(Ant otherAnt) { return (int)Math.signum(getX() - otherAnt.getX()); }
+	
+	/**
+	 * Enables us to sort Ants by location
+	 */
+	public int compareTo(Ant otherAnt) { 
+		return (int)Math.signum(getX() - otherAnt.getX()); 
+	}
 	
 	/**
 	 * Update the position of the ant, ignoring
@@ -78,31 +89,35 @@ public class Ant implements Comparable<Ant> {
 	 * @param t is time (in seconds) since last move
 	 */
 	public void simpleMove(double t) {
-		// For immutable Ants: return new Ant(name, x + t*v, v);
 		x = x + t*v;
 	}
 	
 	public void reflect() {
-		// For immutable Ants: return new Ant(name, x, -v);
 		v = -v;
 	}
 	
+	/**
+	 * Is this Ant touching the other Ant?
+	 * This is a part of determining if the two Ants have collided,
+	 * but that question must also consider the velocities.
+	 */
 	public Boolean isTouching(Ant otherAnt) {
 		return Math.abs(otherAnt.getX() - getX()) < epsX;
 	}
 	
 	/**
+	 * How long until these two Ants collide?
+	 * 
 	 * @param other another Ant object
 	 * @return number of seconds until the two Ants collide.
 	 * If ants are moving in opposite directions then
 	 * the collision occurred in the past, so it is valid
 	 * to return a negative number.
-	 * If ants are moving in the same direction then
+	 * If the ants are moving in the same direction then
 	 * there won't be a collision. Indicate this by
 	 * returning a large negative number.
 	 */
 	public double timeToCollision(Ant otherAnt) {
-
 		double epsV = 0.001;
 		double deltaV = otherAnt.getV() - getV() ;
 		double deltaX = otherAnt.getX() - getX();
@@ -115,6 +130,8 @@ public class Ant implements Comparable<Ant> {
 	}
 	
 	/**
+	 * How long until this Ant reaches the given position?
+	 * 
 	 * @param position is a fixed location
 	 * @return number of seconds until this Ant gets to
 	 * the given position. Will be negative if Ant is moving
@@ -131,6 +148,7 @@ public class Ant implements Comparable<Ant> {
 	public Boolean willCollide(Ant otherAnt) {
 		return timeToCollision(otherAnt) > 0.0;
 	}
+	
 	/**
 	 * Public setter for the name
 	 */
